@@ -1,4 +1,7 @@
 const covid19ImpactEstimator = (data) => {
+  const impact = {};
+  const severImpact = {};
+
   let days;
   if (data.periodType === 'days') {
     days = data.timeToElapse;
@@ -22,9 +25,9 @@ const covid19ImpactEstimator = (data) => {
   );
 
   return {
-    data: {},
-    impact: {},
-    severImpact: {}
+    data,
+    impact,
+    severImpact
   };
 };
 
