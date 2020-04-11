@@ -63,6 +63,7 @@ const covid19ImpactEstimator = (data) => {
   const dollarsInFlight =
     (impact.infectionsByRequestedTime * majorityEarning * avgDailyIncome) /
     days;
+
   const sDollarsInFlight =
     (severeImpact.infectionsByRequestedTime *
       majorityEarning *
