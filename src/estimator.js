@@ -1,40 +1,41 @@
-const covid19ImpactEstimator = (data) => {
-  const impact = {};
-  const severImpact = {};
-
-  let days;
-  const duration = data.timeToElapse;
+//for the time lapse recorded
+const casesByTime = (currentlyInfected, data) => {
+  let cases;
   if (data.periodType === 'days') {
-    days = duration;
+    cases = currentlyInfected * 2 ** Math.trunc(data.timeToElapse / 3);
   } else if (data.periodType === 'weeks') {
-    days = duration * 7;
+    const time = data.timeToElapse * 7;
+    cases = currentlyInfected * 2 ** Math.trunc(time / 3);
+  } else if (data.periodType === 'months') {
+    cases = currentlyInfected * 2 ** (data.timeToElapse * 10);
   }
-  if (data.periodType === 'months') {
-    days = duration * 30;
-  }
-  Console.log(days);
+  return Math.trunc(cases);
+};
 
-  // 10 reported cases
+const covid19ImpactEstimator = (data) => {
+  const severeImpact = {};
+  const impact = {};
+
+  // 10 times reported cases best case
   impact.currentlyInfected = data.reportedCases * 10;
-  // 50 reported cases
-  severImpact.currentlyInfected = data.reportedCases * 50;
+  // 50 times reported cases worst case
+  severeImpact.currentlyInfected = data.reportedCases * 50;
 
-  const value = Math.trunc(days / 3);
-
-  impact.infectionsByRequestedTime = Math.trunc(
-    impact.currentlyInfected * 2 ** value
+  // infections by requested time
+  impact.infectionsByRequestedTime = casesByTime(
+    impact.currentlyInfected,
+    data
   );
-  severImpact.infectionsByRequestedTime = Math.trunc(
-    severImpact.currentlyInfected * 2 ** value
+  severeImpact.infectionsByRequestedTime = casesByTime(
+    severeImpact.currentlyInfected,
+    data
   );
 
-  const computations = {
+  return {
     data,
     impact,
     severImpact
   };
-
-  return computations;
 };
 
 export default covid19ImpactEstimator;
