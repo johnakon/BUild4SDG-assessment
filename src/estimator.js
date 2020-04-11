@@ -24,11 +24,12 @@ const covid19ImpactEstimator = (data) => {
     severImpact.currentlyInfected * 2 ** value
   );
 
-  return {
+  const computations = {
     data,
     impact,
     severImpact
   };
+  return computations;
 };
 
 export default covid19ImpactEstimator;
